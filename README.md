@@ -1,1 +1,1 @@
-# go-spring-echo
+# spring-echo

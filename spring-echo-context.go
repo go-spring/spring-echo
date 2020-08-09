@@ -25,10 +25,10 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/go-spring/go-spring-parent/spring-const"
-	"github.com/go-spring/go-spring-parent/spring-logger"
-	"github.com/go-spring/go-spring-parent/spring-utils"
-	"github.com/go-spring/go-spring-web"
+	"github.com/go-spring/spring-const"
+	"github.com/go-spring/spring-logger"
+	"github.com/go-spring/spring-utils"
+	"github.com/go-spring/spring-web"
 	"github.com/labstack/echo"
 )
 
