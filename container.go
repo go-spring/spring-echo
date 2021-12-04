@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// Package SpringEcho 封装 github.com/labstack/echo 实现的 Web 框架
+// Package SpringEcho 封装 github.com/labstack/echo/v4 实现的 Web 框架
 package SpringEcho
 
 import (
@@ -26,8 +26,9 @@ import (
 	"github.com/go-spring/spring-base/cast"
 	"github.com/go-spring/spring-base/log"
 	"github.com/go-spring/spring-base/util"
+	"github.com/go-spring/spring-core/conf"
 	"github.com/go-spring/spring-core/web"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func init() {
@@ -52,7 +53,7 @@ type Container struct {
 }
 
 // NewContainer 创建 echo 实现的 Web 容器
-func NewContainer(config web.ContainerConfig) *Container {
+func NewContainer(config conf.WebServerConfig) web.Container {
 	c := &Container{}
 	c.echoServer = echo.New()
 	c.echoServer.HideBanner = true
