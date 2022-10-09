@@ -82,14 +82,6 @@ func (h *serverHandler) Start(s web.Server) error {
 				webCtx = newContext(nil, "", "", echoCtx)
 			}
 
-			// 流量录制
-			web.StartRecord(webCtx)
-			defer func() { web.StopRecord(webCtx) }()
-
-			// 流量回放
-			web.StartReplay(webCtx)
-			defer func() { web.StopReplay(webCtx) }()
-
 			return next(EchoContext(webCtx))
 		}
 	})
@@ -126,7 +118,7 @@ func (h *serverHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func wrapperHandler(fn web.Handler, filters []web.Filter) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		filters = append(filters, web.HandlerFilter(fn))
-		web.NewFilterChain(filters).Next(WebContext(c))
+		web.NewFilterChain(filters).Next(WebContext(c), web.Recursive)
 		return nil
 	}
 }
@@ -157,7 +149,7 @@ type echoFilter echo.MiddlewareFunc
 
 func (filter echoFilter) Invoke(ctx web.Context, chain web.FilterChain) {
 	next := func(echoCtx echo.Context) error {
-		chain.Next(ctx)
+		chain.Next(ctx, web.Recursive)
 		return nil
 	}
 	err := filter(next)(EchoContext(ctx))
@@ -224,5 +216,5 @@ func (f *recoveryFilter) Invoke(ctx web.Context, chain web.FilterChain) {
 		}
 	}()
 
-	chain.Next(ctx)
+	chain.Next(ctx, web.Recursive)
 }
